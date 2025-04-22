@@ -8,6 +8,17 @@ if [ ! -f "$CONFIG_DIR" ]; then
     mkdir -p "$CONFIG_DIR"
 fi
 
+if [ -n "$WOLWIZARD_DIALOG" ]; then
+    DIALOG_CMD="$WOLWIZARD_DIALOG"
+elif command -v dialog >/dev/null 2>&1; then
+    DIALOG_CMD="dialog"
+elif command -v whiptail >/dev/null 2>&1; then
+    DIALOG_CMD="whiptail"
+else
+    echo "No dialog tool (dialog or whiptail) found. Exiting." >&2
+    exit 1
+fi
+
 WIDTH=60
 
 i=0
@@ -24,7 +35,7 @@ EOF
 
 
 # shellcheck disable=SC2086
-CHOICE=$(eval dialog \
+CHOICE=$(eval $DIALOG_CMD \
     --backtitle "\"WOLWizard\"" \
     --title "\"Select and Option\"" \
     --menu "\"Choose one\"" \
@@ -40,14 +51,14 @@ elif [ "$CHOICE" = "0" ]; then
     MAC_ADDR=""
     # Repeat until valid mac has been entered
     while ! echo "$MAC_ADDR" | grep -Eq '^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$'; do
-	MAC_ADDR=$(dialog --backtitle "WOLWizard" \
+	MAC_ADDR=$($DIALOG_CMD --backtitle "WOLWizard" \
 		      --title "Enter a MAC address" \
-		      --inputbox "MAC address:" 7 "$WIDTH" \
+		      --inputbox "MAC address:" 8 "$WIDTH" \
 		      2>&1 >/dev/tty)
 	[ -z "$MAC_ADDR" ] && exit 0
-	dialog --backtitle "WOLWizard" \
+	$DIALOG_CMD --backtitle "WOLWizard" \
 	       --title "Invalid MAC address" \
-	       --msgbox "An invalid MAC address has been entered, try again" 5 "$WIDTH"
+	       --msgbox "An invalid MAC address has been entered, try again" 7 "$WIDTH"
     done
 else
     MAC_ADDR=$( echo "$HISTORY" | sed -n "$CHOICE p")
