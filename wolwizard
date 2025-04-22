@@ -50,15 +50,19 @@ if [ -z "$CHOICE" ]; then
 elif [ "$CHOICE" = "0" ]; then
     MAC_ADDR=""
     # Repeat until valid mac has been entered
-    while ! echo "$MAC_ADDR" | grep -Eq '^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$'; do
+    while true; do
 	MAC_ADDR=$($DIALOG_CMD --backtitle "WOLWizard" \
 		      --title "Enter a MAC address" \
 		      --inputbox "MAC address:" 8 "$WIDTH" \
 		      2>&1 >/dev/tty)
 	[ -z "$MAC_ADDR" ] && exit 0
-	$DIALOG_CMD --backtitle "WOLWizard" \
-	       --title "Invalid MAC address" \
-	       --msgbox "An invalid MAC address has been entered, try again" 7 "$WIDTH"
+	if echo "$MAC_ADDR" | grep -Eq '^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$'; then
+	    break
+	else
+	    $DIALOG_CMD --backtitle "WOLWizard" \
+			--title "Invalid MAC address" \
+			--msgbox "An invalid MAC address has been entered, try again" 7 "$WIDTH"
+	fi
     done
 else
     MAC_ADDR=$( echo "$HISTORY" | sed -n "$CHOICE p")
