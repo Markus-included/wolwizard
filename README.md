@@ -3,6 +3,7 @@ A tool to send WOL packets using user-friendly TUI interface
 
 ## Dependencies
 - A POSIX-compatible shell
+- `dialog` or `whiptail` (The latter is pre-installed on Debian/Ubuntu)
 - [`wakeonlan`](https://github.com/jpoliv/wakeonlan/): This is intended to be replaced with a custom implementation in the future 
   - Package `wakeonlan` in the [Debian](https://packages.debian.org/search?keywords=wakeonlan)/[Ubuntu](https://packages.ubuntu.com/search?keywords=wakeonlan) repositories
   - Package [`wakeonlan`](https://archlinux.org/packages/extra/any/wakeonlan/) in the AUR
@@ -13,6 +14,9 @@ A tool to send WOL packets using user-friendly TUI interface
 ```sh
 sudo make install
 ```
+
+## Configuration
+The environment variable `WOLWIZARD_DIALOG` can be used to override the dialog command used, when empty dialog will be used or whiptail as a fallback
 
 ## Images
 ![Main screen](img/mainscreen.png) Main screen

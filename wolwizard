@@ -29,8 +29,8 @@ while IFS= read -r line; do
 	MENU_ITEMS="$MENU_ITEMS $i \"$line\""
 	i=$((i + 1))
 done <<EOF
-Enter a MAC address manually
 $HISTORY
+Enter a MAC address manually
 EOF
 
 
