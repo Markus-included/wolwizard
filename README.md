@@ -1,5 +1,5 @@
 # WOLWizard: The Wake-on-LAN wizard
-A tool to send WOL packets using user-friendly TUI interface
+A tool to send WOL packets using a user-friendly TUI interface
 
 ## Dependencies
 - A POSIX-compatible shell
@@ -16,7 +16,7 @@ sudo make install
 ```
 
 ## Configuration
-The environment variable `WOLWIZARD_DIALOG` can be used to override the dialog command used, when empty dialog will be used or whiptail as a fallback
+The environment variable `WOLWIZARD_DIALOG` can be used to override the dialog command used, when unset `dialog` will be used, if `dialog` isn't available, `whiptail` will be used as a fallback
 
 ## Images
 ![Main screen](img/mainscreen.png) Main screen
